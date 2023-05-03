@@ -120,6 +120,25 @@ export async function blockApplication(req,res){
     res.status(500).send("Failed to block App")
   })
 }
+ 
+
+export async function getChildSafeZone(req,res){ 
+  let user = await User.findById(req.id);
+  await Child.findOne({ Parents: user._id}).then((docs) => {
+    res.status(200).json({
+      SafeZonePoint1: docs.SafeZonePoint1,
+      SafeZonePoint2: docs.SafeZonePoint2,
+      SafeZonePoint3: docs.SafeZonePoint3,
+      SafeZonePoint4: docs.SafeZonePoint4,
+    })
+  }).catch(err=>{
+    res.status(500).send("Failed to get child safe zone")
+
+  })
+  
+}
+
+
 
 
 export async function setChildSafeZone(req,res){
@@ -127,21 +146,23 @@ export async function setChildSafeZone(req,res){
   let child =  await Child.findOne({ Parents: user._id})
   if (child) {
     Child.findOneAndUpdate({_id:child._id},{
-      SafeZonePoint1:req.body.point1,
-      SafeZonePoint2:req.body.point2,
-      SafeZonePoint3:req.body.point3,
-      SafeZonePoint4:req.body.point4,
+      SafeZonePoint1:req.body.SafeZonePoint1,
+      SafeZonePoint2:req.body.SafeZonePoint2,
+      SafeZonePoint3:req.body.SafeZonePoint3,
+      SafeZonePoint4:req.body.SafeZonePoint4,
     },{
       // Hedha i5alih iraja3lek el version updated mtaa user mech el kdim
       returnDocument: "after",
-    }).then(docs => {
+    }).then((docs) => {
       res.status(200).json(docs)
     }).catch(err=>{
       res.status(500).send("Failed to set child's safe zone")
+
     })
   }
   else {
-    res.status(404).send("Child not found")
+    console.log("error 3")
+    res.status(404).send("No linked children")
   }
 
 

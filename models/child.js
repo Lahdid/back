@@ -17,16 +17,16 @@ const childSchema = new Schema(
 
     },
     SafeZonePoint1:{ 
-      type: mongoose.Schema.Types.Number
+      type: String
     },
     SafeZonePoint2:{ 
-      type: mongoose.Schema.Types.Number
+      type: String
     },
     SafeZonePoint3:{ 
-      type: mongoose.Schema.Types.Number
+      type: String
     },
     SafeZonePoint4:{ 
-      type: mongoose.Schema.Types.Number
+      type: String
     },
     Parents: [{
       type: mongoose.Schema.Types.ObjectId,
